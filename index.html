@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Infinite Wiki</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+      @keyframes blink {
+        from, to { opacity: 1 }
+        50% { opacity: 0; }
+      }
+
+      body {
+        background-color: #ffffff;
+        color: #000000;
+        font-family: 'Lora', serif;
+        font-size: 1.1rem;
+        line-height: 1.7;
+        margin: 0;
+        padding: 2rem 2rem 5rem 2rem;
+      }
+      #root {
+        max-width: 65ch;
+        margin: auto;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-size: 1em;
+        margin: 0;
+        font-weight: normal;
+      }
+      button {
+        background: none;
+        border: none;
+        padding: 0;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+      }
+      .interactive-word {
+        color: #000000;
+        text-decoration: none;
+        transition: color 0.2s ease-in-out;
+        cursor: pointer;
+      }
+      .interactive-word:hover {
+        color: #0000ff;
+        text-decoration: underline;
+      }
+      
+      .bold-term {
+        font-weight: bold;
+      }
+
+      .footer-text {
+        font-size: 0.9em;
+        color: #888;
+      }
+      .footer-text a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.2s ease-in-out;
+      }
+      .footer-text a:hover {
+        color: #0000ff;
+        text-decoration: underline;
+      }
+      .blinking-cursor {
+        animation: blink 1s step-end infinite;
+      }
+
+      /* Custom Selection Styling to match Hyperlink effect */
+      ::selection {
+        background-color: rgba(0, 0, 255, 0.1); /* Very light blue */
+        color: #0000ff; /* Blue text */
+        text-decoration: underline;
+      }
+      
+      /* Search Bar Styles */
+      .search-container {
+        display: flex;
+        align-items: baseline; /* Aligns text baselines */
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 3rem;
+        flex-wrap: nowrap;
+      }
+
+      .search-form {
+        flex-grow: 1;
+        min-width: 0;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 0 0 0.5rem 0; /* Padding bottom for spacing from border */
+        font-family: inherit;
+        font-size: 1rem; 
+        color: inherit;
+        border: none;
+        border-bottom: 1px solid #eee;
+        background-color: transparent;
+        box-sizing: border-box;
+        outline: none;
+        transition: border-color 0.2s;
+        /* Removed line-height/height forcing to let baseline alignment work naturally */
+      }
+      
+      .search-input:focus {
+        border-bottom-color: #000;
+      }
+      
+      .search-input:disabled {
+        color: #ccc;
+      }
+
+      .search-input::placeholder {
+        color: #888;
+        opacity: 1;
+      }
+
+      .controls-group {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+      }
+
+      .language-select {
+        background: transparent;
+        border: none;
+        font-family: inherit;
+        font-size: 1rem;
+        color: #888;
+        cursor: pointer;
+        outline: none;
+        padding: 0 0 0.5rem 0; /* Match input padding-bottom */
+        text-align: right;
+        -moz-appearance: none;
+        text-align-last: right;
+      }
+
+      .language-select:hover:not(:disabled) {
+        color: #0000ff;
+      }
+
+      .language-select:disabled {
+        color: #ccc;
+        cursor: not-allowed;
+      }
+
+      .sticky-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        text-align: center;
+        padding: 1.5rem 0;
+        background-color: #ffffff;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.7.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
