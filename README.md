@@ -2,9 +2,9 @@
 <img width="1200" height="855" alt="GHBanner" src="images/app-screenshot.png" />
 </div>
 
-# Run and deploy your AI Studio app
+# NEXUSWIKI
 
-This contains everything you need to run your app locally.
+NEXUSWIKI is a revolutionary knowledge and discovery platform built on the concept of adaptive, generative content. Directly inspired by the vision of the "Infinite Wiki," this project breaks free from the rigid, finite structure of traditional encyclopedias. NEXUSWIKI treats knowledge not as a collection of static documents, but as a fluid, interconnected graph where information is created on-demand, tailored to the user's immediate path of curiosity.
 
 View your app in AI Studio: https://ai.studio/apps/drive/1Gt6OxDj6bydQ4GuST-yeJk6-t5dOJZq5
 
