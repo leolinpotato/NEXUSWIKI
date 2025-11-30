@@ -3,7 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
 */
 import React, { useState } from 'react';
-import type { Collection } from '../services/storageService';
+
+export interface Collection {
+  id: string;
+  name: string;
+}
 
 interface SaveModalProps {
   isOpen: boolean;
@@ -23,13 +27,15 @@ const SaveModal: React.FC<SaveModalProps> = ({ isOpen, onClose, onSave, collecti
       return; // Prevent saving empty name
     }
     onSave(selectedCollectionId, newCollectionName);
+    // Reset state
     setNewCollectionName('');
+    if (collections.length > 0) setSelectedCollectionId(collections[0].id);
   };
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        <h3>Bookmark Topic</h3>
+        <h3>Save to Collection</h3>
         
         <div style={{ marginBottom: '1.5rem' }}>
           {collections.length > 0 && (
@@ -71,7 +77,7 @@ const SaveModal: React.FC<SaveModalProps> = ({ isOpen, onClose, onSave, collecti
              <input 
                type="text" 
                className="modal-input"
-               placeholder="Collection Name (e.g., Research)"
+               placeholder="Collection Name (e.g., Favorites)"
                value={newCollectionName}
                onChange={(e) => setNewCollectionName(e.target.value)}
                disabled={selectedCollectionId !== 'new'}

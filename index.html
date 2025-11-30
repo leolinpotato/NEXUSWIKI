@@ -2,13 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <!-- Updated Favicon: Base64 encoded futuristic hexagon icon -->
-    <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBmaWxsPSJub25lIj48cGF0aCBkPSJNNTAgMTBMODUgMzBWNzBMNTAgOTBMMTUgNzBWMzBMNTAgMTBaIiBmaWxsPSJibGFjayIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNTAiIHI9IjEyIiBmaWxsPSJ3aGl0ZSIvPjxwYXRoIGQ9Ik01MCAyNVYzOE0yOCA2MkwzOSA1Nk03MiA2Mkw2MSA1NiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz48L3N2Zz4=" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NexusWiki</title>
+    <title>Infinite Wiki</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
       @keyframes blink {
         from, to { opacity: 1 }
@@ -18,37 +17,16 @@
       body {
         background-color: #ffffff;
         color: #000000;
-        font-family: 'Lora', serif; /* Content font */
+        font-family: 'Lora', serif;
         font-size: 1.1rem;
         line-height: 1.7;
         margin: 0;
-        padding: 0;
-        overflow-x: hidden;
+        padding: 2rem 2rem 5rem 2rem;
       }
-      
-      /* UI Font Helper */
-      .ui-font, button, input, select, .sidebar, .login-container {
-        font-family: 'Inter', sans-serif;
-      }
-
       #root {
-        /* Layout handled in App */
-      }
-      
-      .main-wrapper {
         max-width: 65ch;
         margin: auto;
-        padding: 2rem 2rem 5rem 2rem;
-        transition: margin-left 0.3s ease;
       }
-      
-      /* Shift content when sidebar is open on Desktop */
-      @media (min-width: 768px) {
-        .main-wrapper.shifted {
-          margin-left: 320px; /* Sidebar width + gap */
-        }
-      }
-
       h1, h2, h3, h4, h5, h6 {
         font-size: 1em;
         margin: 0;
@@ -80,7 +58,15 @@
       .footer-text {
         font-size: 0.9em;
         color: #888;
-        font-family: 'Inter', sans-serif;
+      }
+      .footer-text a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.2s ease-in-out;
+      }
+      .footer-text a:hover {
+        color: #0000ff;
+        text-decoration: underline;
       }
       .blinking-cursor {
         animation: blink 1s step-end infinite;
@@ -88,20 +74,19 @@
 
       /* Custom Selection Styling to match Hyperlink effect */
       ::selection {
-        background-color: rgba(0, 0, 255, 0.1);
-        color: #0000ff;
+        background-color: rgba(0, 0, 255, 0.1); /* Very light blue */
+        color: #0000ff; /* Blue text */
         text-decoration: underline;
       }
       
       /* Search Bar Styles */
       .search-container {
         display: flex;
-        align-items: baseline;
+        align-items: baseline; /* Aligns text baselines */
         justify-content: space-between;
         gap: 1rem;
         margin-bottom: 3rem;
         flex-wrap: nowrap;
-        margin-top: 3rem; /* Space for menu button */
       }
 
       .search-form {
@@ -111,7 +96,8 @@
 
       .search-input {
         width: 100%;
-        padding: 0 0 0.5rem 0;
+        padding: 0 0 0.5rem 0; /* Padding bottom for spacing from border */
+        font-family: inherit;
         font-size: 1rem; 
         color: inherit;
         border: none;
@@ -120,6 +106,7 @@
         box-sizing: border-box;
         outline: none;
         transition: border-color 0.2s;
+        /* Removed line-height/height forcing to let baseline alignment work naturally */
       }
       
       .search-input:focus {
@@ -144,11 +131,12 @@
       .language-select {
         background: transparent;
         border: none;
+        font-family: inherit;
         font-size: 1rem;
         color: #888;
         cursor: pointer;
         outline: none;
-        padding: 0 0 0.5rem 0;
+        padding: 0 0 0.5rem 0; /* Match input padding-bottom */
         text-align: right;
         -moz-appearance: none;
         text-align-last: right;
@@ -156,6 +144,11 @@
 
       .language-select:hover:not(:disabled) {
         color: #0000ff;
+      }
+
+      .language-select:disabled {
+        color: #ccc;
+        cursor: not-allowed;
       }
 
       .sticky-footer {
@@ -167,302 +160,7 @@
         text-align: center;
         padding: 1.5rem 0;
         background-color: #ffffff;
-        z-index: 50;
       }
-      
-      /* --- Sidebar Styles --- */
-      .sidebar {
-        position: fixed;
-        top: 0;
-        left: -300px;
-        width: 300px;
-        height: 100vh;
-        background: #fcfcfc;
-        border-right: 1px solid #eee;
-        z-index: 100;
-        transition: left 0.3s ease;
-        display: flex;
-        flex-direction: column;
-        font-family: 'Inter', sans-serif;
-      }
-      
-      .sidebar.open {
-        left: 0;
-      }
-      
-      .sidebar-backdrop {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0,0,0,0.1);
-        z-index: 90;
-        display: none;
-      }
-      .sidebar-backdrop.open {
-        display: block;
-      }
-      
-      @media (min-width: 768px) {
-        .sidebar-backdrop.open {
-          display: none; /* No backdrop on desktop sidebar */
-        }
-      }
-
-      .sidebar-header {
-        padding: 1.5rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: 1px solid #eee;
-      }
-      
-      .sidebar-logo {
-        font-weight: 700;
-        letter-spacing: 0.1em;
-      }
-      
-      .sidebar-content {
-        flex: 1;
-        overflow-y: auto;
-        padding: 1rem 0;
-      }
-      
-      .sidebar-footer {
-        padding: 1rem 1.5rem;
-        border-top: 1px solid #eee;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      
-      .folder-row {
-        margin-bottom: 0.5rem;
-      }
-      
-      .folder-toggle {
-        width: 100%;
-        text-align: left;
-        padding: 0.5rem 1.5rem;
-        display: flex;
-        align-items: center;
-        font-weight: 600;
-        font-size: 0.9rem;
-        color: #333;
-      }
-      .folder-toggle:hover {
-        background: #f5f5f5;
-      }
-      
-      .chevron {
-        font-size: 0.7em;
-        margin-right: 0.5rem;
-        transition: transform 0.2s;
-        display: inline-block;
-        color: #888;
-      }
-      .chevron.down {
-        transform: rotate(90deg);
-      }
-      
-      .folder-items {
-        padding-left: 2rem;
-      }
-      
-      .sidebar-item {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        text-align: left;
-        padding: 0.4rem 1.5rem 0.4rem 2rem;
-        font-size: 0.9rem;
-        color: #555;
-        border-left: 1px solid #eee;
-        margin-left: 0.8rem;
-      }
-      .sidebar-item:hover {
-        color: #000;
-        background: #fafafa;
-      }
-      
-      .item-lang {
-        font-size: 0.75em;
-        color: #999;
-        text-transform: uppercase;
-      }
-      
-      .collections-divider {
-        margin: 1.5rem 1.5rem 0.5rem 1.5rem;
-        font-size: 0.75em;
-        color: #aaa;
-        letter-spacing: 0.1em;
-        font-weight: 600;
-      }
-
-      .empty-state {
-        padding: 0.5rem 2rem;
-        color: #bbb;
-        font-size: 0.85rem;
-        font-style: italic;
-      }
-      
-      .user-info {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-      .user-avatar {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: #000;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.8rem;
-        font-weight: bold;
-      }
-      .user-email {
-        font-size: 0.8rem;
-        color: #666;
-      }
-      .logout-btn {
-        font-size: 0.8rem;
-        color: #cc0000;
-        font-weight: 500;
-      }
-      
-      .bookmark-btn {
-        color: #ccc;
-        transition: color 0.2s;
-        display: flex;
-      }
-      .bookmark-btn:hover {
-        color: #000;
-      }
-      
-      /* --- Login Screen --- */
-      .login-container {
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #fff;
-      }
-      .login-card {
-        text-align: center;
-        padding: 3rem;
-        max-width: 400px;
-        width: 100%;
-      }
-      .login-logo {
-        margin-bottom: 1.5rem;
-      }
-      .login-title {
-        font-size: 1.5rem;
-        letter-spacing: 0.2em;
-        margin-bottom: 0.5rem;
-        font-weight: normal;
-        font-family: 'Lora', serif;
-      }
-      .login-subtitle {
-        color: #888;
-        margin-bottom: 3rem;
-      }
-      .google-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        width: 100%;
-        padding: 0.8rem;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background: #fff;
-        color: #3c4043;
-        font-weight: 500;
-        font-size: 1rem;
-        transition: background 0.2s;
-        cursor: pointer;
-      }
-      .google-btn:hover:not(:disabled) {
-        background: #f8f9fa;
-        border-color: #ccc;
-      }
-      .google-btn:disabled {
-        opacity: 0.7;
-        cursor: wait;
-      }
-      .login-footer {
-        margin-top: 2rem;
-        font-size: 0.8rem;
-        color: #aaa;
-      }
-      .login-error {
-        margin-top: 1rem;
-        color: #d32f2f;
-        font-size: 0.9rem;
-      }
-
-      /* Modal */
-      .modal-overlay {
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(255,255,255,0.9);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        backdrop-filter: blur(2px);
-        font-family: 'Inter', sans-serif;
-      }
-      .modal-content {
-        background: #fff;
-        border: 1px solid #eee;
-        padding: 2rem;
-        width: 90%;
-        max-width: 400px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        border-radius: 8px;
-      }
-      .modal-content h3 {
-        margin-bottom: 1.5rem;
-        font-size: 1.2rem;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 0.5rem;
-      }
-      .radio-label {
-        display: block;
-        margin-bottom: 0.5rem;
-        cursor: pointer;
-        font-size: 0.95rem;
-      }
-      .modal-select, .modal-input {
-        width: 100%;
-        padding: 0.5rem;
-        margin-top: 0.25rem;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        font: inherit;
-        font-size: 0.9rem;
-      }
-      .modal-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 1rem;
-        margin-top: 2rem;
-      }
-      .modal-btn {
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        font-size: 0.9rem;
-      }
-      .modal-btn.cancel { color: #888; }
-      .modal-btn.cancel:hover { background: #f5f5f5; }
-      .modal-btn.save { background: #000; color: #fff; }
-      .modal-btn.save:hover { background: #333; }
     </style>
   <script type="importmap">
 {
@@ -470,8 +168,7 @@
     "react/": "https://esm.sh/react@^19.1.0/",
     "react": "https://esm.sh/react@^19.1.0",
     "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.7.0",
-    "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@^2.45.0"
+    "@google/genai": "https://esm.sh/@google/genai@^1.7.0"
   }
 }
 </script>
